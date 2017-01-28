@@ -2,13 +2,18 @@ import React, { Component, PropTypes } from 'react';
 
 export default class AddAttendee extends Component {
 
+
+	toggleSort(){
+		this.props.toggleSort();
+	}
+
 	handleSubmit(e) {
 		// Stop page refreshing
 		e.preventDefault();
 
 		let refs = this.refs;
 		let name = refs.name.value;
-		let color = refs.color.value
+		let color = refs.color.value;
 
 		// Trigger action
 		this.props.addAttendee(name, color);
@@ -27,6 +32,7 @@ export default class AddAttendee extends Component {
 						<label>Favourite color</label>
 						<input id="color" type="text" ref="color" placeholder="#2e2e2e" />
 						<button type="submit" className="button">Add attendee</button>
+						<button type="button" className="button" onClick={this.toggleSort.bind(this)}>Toggle sort</button>
 					</form>
 				</div>
 			</div>

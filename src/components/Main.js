@@ -12,24 +12,24 @@ class Main extends Component {
 
   render() {
     return (
-			<div>
-				<h1>Attendees</h1>
+            <div>
+                <h1>Attendees</h1>
 				<hr/>
-        <AddAttendee addAttendee={this.props.addAttendee} />
+        <AddAttendee addAttendee={this.props.addAttendee} toggleSort={this.props.toggleSort} />
 				<hr/>
+                <h2 className={this.props.loading ? 'show' : 'hide'}>Loading ...</h2>
         <Attendees data={this.props.attendees} removeAttendee={this.props.removeAttendee} />
 			</div>
     )
   }
 }
 
-const mapStateToProps = state => ({
-  attendees: state
-})
+const mapStateToProps = state => state.attendeesReducer;
+
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(AttendeesActions, dispatch)
-}
+};
 
 export default connect(
   mapStateToProps,

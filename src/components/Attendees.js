@@ -4,7 +4,7 @@ import RemoveAttendee from './RemoveAttendee';
 
 export default class Attendees extends Component {
   render() {
-    const { attendees } = this.props.data;
+    const attendees = this.props.data;
     return (
 			<ul className="attendees">
 				{ attendees.map((attendee, index) =>

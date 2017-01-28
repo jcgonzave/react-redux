@@ -1,29 +1,44 @@
-import Data from '../data/data'
+const sortAttendees = (attendees, ascending) => {
+	return attendees.sort((a, b) => {return ascending ? (a.name < b.name ? 1 : -1) : (a.name > b.name ? 1 : -1)})
+};
 
+const initialState = {
+	loading: true,
+	attendees: [],
+	ascending: true
+};
 
-export default function attendees (state = [], action) {
+export default function attendees (state = initialState, action) {
 	switch (action.type) {
+		case 'TOGGLE_SORT':
+			return Object.assign({}, state, {
+				ascending: !state.ascending,
+				attendees: sortAttendees([...state.attendees], !state.ascending)
+			});
 		case 'ADD_ATTENDEE':
 			// Return a new array with old state and added attendee.
-			return [{
+			return Object.assign({}, state, {
+				attendees: sortAttendees([{
 					name: action.name,
 					color: action.color
 				},
-				...state
-			];
+				...state.attendees
+				], state.ascending)
+			});
 		case 'REMOVE_ATTENDEE':
-			return [
-				// Grab state from begging to index of one to delete
-				...state.slice(0, action.index),
-				// Grab state from the one after one we want to delete
-				...state.slice(action.index + 1)
-			];
+			let newAttendees = [...state.attendees];
+			newAttendees.splice(action.index, 1);
+			return Object.assign({}, state, {
+				attendees: newAttendees
+			});
 		case 'RECEIVE_LIST':
-			return [
-				...state,
-				...action.list
-			]
-
+			return Object.assign({}, state, {
+				loading: false,
+				attendees: [
+					...state.attendees,
+					...action.list
+				]
+			});
 		default:
 			return state;
 	}
